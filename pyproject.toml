@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "safe"
+version = "0.1.0"
+description = "Ray Distributed Alignment Training with SAFE and Asymmetric KL algorithms"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0",
+    "transformers>=4.36.0",
+    "peft>=0.7.0",
+    "accelerate>=0.25.0",
+    "datasets>=2.14.0",
+    "ray[default]>=2.9.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "tqdm>=4.65.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "black>=23.0.0", "ruff>=0.1.0"]
+
+[project.scripts]
+safe-train = "scripts.train:main"
+safe-distributed = "scripts.train_distributed:main"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100

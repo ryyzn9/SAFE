@@ -1,0 +1,53 @@
+# Base configuration for S3-KLQ training
+
+algorithm: safe
+
+# Model settings
+model_name: Qwen/Qwen2.5-3B
+reward_model_name: RLHFlow/ArmoRM-Llama3-8B-v0.1
+
+# LoRA settings
+lora_r: 128
+lora_alpha: 128
+lora_dropout: 0.05
+
+# Training settings
+batch_size: 16
+gradient_accumulation: 2
+max_steps: 2000
+max_new_tokens: 128
+
+# Learning rates
+policy_lr: 1e-5
+critic_lr: 1e-5
+
+# PPO settings
+clip_range: 0.2
+clip_range_vf: 0.2
+epochs_per_batch: 2
+entropy_coef: 0.01
+
+# Critic settings
+alpha_softmin: 0.3
+tau_polyak: 0.05
+
+# SAFE-specific settings
+kl_base_threshold: 0.3
+entropy_floor: 2.0
+max_preview_kl: 0.5
+pid_kp: 0.3
+pid_ki: 0.01
+pid_kd: 0.05
+
+# Logging
+log_every: 50
+save_every: 200
+
+# Distributed (single GPU for base config)
+num_gpus: 1
+use_placement_groups: false
+
+# Data
+dataset_name: Anthropic/hh-rlhf
+train_split: "train[:5000]"
+eval_split: "test[:500]"

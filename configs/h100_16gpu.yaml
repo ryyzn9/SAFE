@@ -1,0 +1,54 @@
+# 16x H100 GPU configuration for large-scale distributed training
+
+algorithm: safe
+
+# Model settings
+model_name: Qwen/Qwen2.5-3B
+reward_model_name: RLHFlow/ArmoRM-Llama3-8B-v0.1
+
+# LoRA settings
+lora_r: 128
+lora_alpha: 128
+lora_dropout: 0.05
+
+# Training settings - maximized for 16 GPUs
+batch_size: 32  # Per GPU, total = 32 * 16 = 512
+gradient_accumulation: 1
+max_steps: 2000
+max_new_tokens: 128
+
+# Learning rates - scaled for massive batches
+policy_lr: 3e-5
+critic_lr: 3e-5
+
+# PPO settings
+clip_range: 0.2
+clip_range_vf: 0.2
+epochs_per_batch: 2
+entropy_coef: 0.01
+
+# Critic settings
+alpha_softmin: 0.3
+tau_polyak: 0.05
+
+# SAFE-specific settings
+kl_base_threshold: 0.3
+entropy_floor: 2.0
+max_preview_kl: 0.5
+pid_kp: 0.3
+pid_ki: 0.01
+pid_kd: 0.05
+
+# Logging - more frequent for faster training
+log_every: 10
+save_every: 50
+
+# Distributed - 16 GPUs
+num_gpus: 16
+rollout_workers_per_gpu: 1
+use_placement_groups: true
+
+# Data - full dataset for large-scale training
+dataset_name: Anthropic/hh-rlhf
+train_split: "train"
+eval_split: "test[:2000]"
